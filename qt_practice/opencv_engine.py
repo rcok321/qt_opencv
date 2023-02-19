@@ -23,7 +23,7 @@ class opencv_engine(object):
         return cv2.imread(file_path)
 
     @staticmethod
-    def draw_point(img, point=(0, 0), color = (128, 128, 128),point_size = 1,thickness = 4): # red
+    def draw_point(img, point=(0, 0), color = (128, 128, 128),point_size = 1,thickness = 4):
         point = opencv_engine.point_float_to_int(point)
         return cv2.circle(img, point, point_size, color, thickness)
 
@@ -32,3 +32,11 @@ class opencv_engine(object):
         point_begin = opencv_engine.point_float_to_int(point_begin)
         point_end = opencv_engine.point_float_to_int(point_end)
         return cv2.line(img, point_begin, point_end, color, thickness)
+
+    @staticmethod
+    def floodfill(img, seed, color = (0,0,0), loDiff=(1,1,1), upDiff=(1,1,1)):
+        import numpy as np
+        h, w = img.shape[:2]
+        mask = np.zeros([h+2, w+2], np.uint8) 
+        seed = opencv_engine.point_float_to_int(seed)
+        return cv2.floodFill(img, mask, seed, color, loDiff, upDiff, cv2.FLOODFILL_FIXED_RANGE)  
